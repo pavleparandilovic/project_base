@@ -57,7 +57,7 @@ struct ProgramState {
     Camera camera;
     bool CameraMouseMovementUpdateEnabled = true;
     glm::vec3 airplanePosition = glm::vec3(0.0f);
-    float airplaneScale = 0.3f;
+    float airplaneScale = 0.15f;
     float airplaneRotationAngle = 0.0f;
     PointLight pointLight;
     ProgramState()
@@ -161,9 +161,17 @@ int main() {
     // -----------------------------
     glEnable(GL_DEPTH_TEST);
 
+    //Face Culling
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     // build and compile shaders
     // -------------------------
     Shader ourShader("resources/shaders/2.model_lighting.vs", "resources/shaders/2.model_lighting.fs");
+    Shader cloudShader("resources/shaders/cloud.vs", "resources/shaders/cloud.fs");
 
     float vertices[] = {
             // positions          // normals           // texture coords
@@ -209,6 +217,20 @@ int main() {
             -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  0.0f,
             -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f
     };
+
+    glm::vec3 cloudPositions[] = {
+            glm::vec3(1.5f, 1.5f, -2.0f),
+            glm::vec3(3.2f, -4.1f, 1.0f),
+            glm::vec3(-2.1f, 3.3f, 4.5f),
+            glm::vec3(-3.8f, 2.2f, 1.3f),
+            glm::vec3(4.3f, 0.25f, -2.3f),
+            glm::vec3(1.5f, -2.7f, -3.0f),
+            glm::vec3(1.7f, 3.1f, 2.45f),
+            glm::vec3(-1.3f, 0.2f, 0.0f),
+            glm::vec3(5.1f, -3.4f, 2.1f),
+            glm::vec3(2.4f, 2.6f, 3.1f)
+    };
+
     // first, configure the cube's VAO (and VBO)
     unsigned int VBO, cubeVAO;
     glGenVertexArrays(1, &cubeVAO);
@@ -236,6 +258,12 @@ int main() {
     ourShader.use();
     ourShader.setInt("material.texture_diffuse1", 0);
     ourShader.setInt("material.texture_specular1", 1);
+
+
+    unsigned int cloudTexture = loadTexture(FileSystem::getPath("resources/textures/cloudTexture/kindpng_7299310.png").c_str());
+    cloudShader.use();
+    cloudShader.setInt("texture1", 2);
+
 
     // load models
     // -----------
@@ -300,10 +328,13 @@ int main() {
         ourShader.setMat4("view", view);
 
         // render the loaded model
+        glDisable(GL_CULL_FACE);
+        double time = glfwGetTime();
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model,
                                programState->airplanePosition); // translate it down so it's at the center of the scene
         model = glm::rotate(model, programState->airplaneRotationAngle, glm::vec3(1.0f, 0.0f, 0.0f));
+        model = glm::translate(model, glm::vec3(4.3f*sin(2*time), 0.0f, 4.03f*cos(time)));
         model = glm::scale(model, glm::vec3(programState->airplaneScale));    // it's a bit too big for our scene, so scale it down
         ourShader.setMat4("model", model);
         airplaneModel.Draw(ourShader);
@@ -333,6 +364,7 @@ int main() {
         model = glm::translate(model, glm::vec3(4.0f, 0.0f, 0.0f));
         ourShader.setMat4("model", model);
 
+
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, diffuseMap);
         // bind specular map
@@ -342,6 +374,30 @@ int main() {
         // render the cube
         glBindVertexArray(cubeVAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);
+
+
+        // cloud
+        cloudShader.use();
+
+        cloudShader.setMat4("projection", projection);
+        cloudShader.setMat4("view", view);
+        glBindVertexArray(cubeVAO);
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, cloudTexture);
+
+        for (int i = 0; i < 10; i++) {
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, cloudPositions[i]);
+            float angle = 13.0f * i;
+//            model = glm::rotate(model, glm::radians(angle), glm::vec3(0.7f, 0.3f, 0.0f ));
+            cloudShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 6);
+        }
+
+
+        glEnable(GL_CULL_FACE);
+
+        // TODO skybox
 
         if (programState->ImGuiEnabled)
             DrawImGui(programState);
