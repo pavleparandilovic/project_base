@@ -1,8 +1,7 @@
 # project_base
-Prazan projekat sa pratećim bibliotekama koje koristimo na času. 
-
-
-Iz grupe A implementiran skybox.
+Projekat iz racunarske grafike.
+Implementirane su obavezne oblasti, a 
+iz grupe A implementiran je Cubemaps(Skybox).
 
 # Uputstvo
 1. `git clone https://github.com/matf-racunarska-grafika/project_base.git`
