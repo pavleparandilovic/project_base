@@ -5,6 +5,11 @@ iz grupe A implementiran je Cubemaps(Skybox).
 
 <a href="https://drive.google.com/file/d/1Gwfer2z9mYLaHC8KxgdknAmEWb2wpvMa/view?usp=sharing"> video </a>
 
+<a href="https://free3d.com/3d-model/airplane-v1--592360.html"> model aviona </a>
+<a href="https://polyhaven.com/a/slab_tiles"> tekstura kocke </a>
+<a href="https://www.kindpng.com/imgv/TJxbbmw_cloud-png-clipart-png-download-cloud-png-transparent/"> oblak </a>
+<a href="http://www.humus.name/index.php?page=Cubemap&item=Yokohama2"> skybox </a>
+
 # Uputstvo
 1. `git clone https://github.com/matf-racunarska-grafika/project_base.git`
 2. CLion -> Open -> path/to/my/project_base
