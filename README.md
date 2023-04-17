@@ -1,6 +1,9 @@
 # project_base
 Prazan projekat sa pratećim bibliotekama koje koristimo na času. 
 
+
+Iz grupe A implementiran skybox.
+
 # Uputstvo
 1. `git clone https://github.com/matf-racunarska-grafika/project_base.git`
 2. CLion -> Open -> path/to/my/project_base
@@ -9,4 +12,4 @@ Prazan projekat sa pratećim bibliotekama koje koristimo na času.
 5. Zaglavlja (h i hpp) fajlovi idu u include
 6. Šejderi idu u folder shaders. `Vertex shader` ima ekstenziju `.vs`, `fragment shader` ima ekstenziju `.fs`
 7. ALT+SHIFT+F10 -> project_base -> run
-8. Cloud texture: <a href="https://www.freepik.com/free-vector/collection-realistic-different-clouds_18262442.htm#query=cloud%20texture&position=0&from_view=keyword&track=ais">Image by pikisuperstar</a> on Freepik
+8. Pritiskom na R avion rotira oko x-ose za ugao pi/4, a na Q za -pi/4
