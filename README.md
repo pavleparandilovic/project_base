@@ -3,6 +3,8 @@ Projekat iz racunarske grafike.
 Implementirane su obavezne oblasti, a 
 iz grupe A implementiran je Cubemaps(Skybox).
 
+<a href="https://drive.google.com/file/d/1Gwfer2z9mYLaHC8KxgdknAmEWb2wpvMa/view?usp=sharing"> video </a>
+
 # Uputstvo
 1. `git clone https://github.com/matf-racunarska-grafika/project_base.git`
 2. CLion -> Open -> path/to/my/project_base
